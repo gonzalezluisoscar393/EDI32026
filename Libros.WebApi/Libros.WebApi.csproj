@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Libre.DataAccess\Libros.DataAccess.csproj" />
-    <ProjectReference Include="..\Libre.Entitties\Libros.Entitties.csproj" />
-    <ProjectReference Include="..\Libre.Services\Libros.Services.csproj" />
     <ProjectReference Include="..\Libros.Application\Libros.Application.csproj" />
+    <ProjectReference Include="..\Libros.DataAccess\Libros.DataAccess.csproj" />
+    <ProjectReference Include="..\Libros.Entitties\Libros.Entitties.csproj" />
+    <ProjectReference Include="..\Libros.Services\Libros.Services.csproj" />
   </ItemGroup>
 
 </Project>

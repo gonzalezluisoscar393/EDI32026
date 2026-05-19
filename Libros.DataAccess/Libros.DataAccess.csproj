@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Libre.Entitties\Libros.Entitties.csproj" />
     <ProjectReference Include="..\Libros.Abstractions\Libros.Abstractions.csproj" />
+    <ProjectReference Include="..\Libros.Entitties\Libros.Entitties.csproj" />
   </ItemGroup>
 
 </Project>
