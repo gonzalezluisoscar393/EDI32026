@@ -15,7 +15,7 @@ namespace Libros.Entitties
         [StringLength(10)]
         public string Nombre { get; set; }
         public int Pages { get; set; }
-        public DateTime FechaPublicación { get; set; }
+        public DateTime FechaPublicacion { get; set; }
         [ForeignKey(nameof(Editorial))]
         public int IdEditorial { get; set; }
         public virtual Editorial Editorial { get; set; }

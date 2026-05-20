@@ -1,7 +1,7 @@
-﻿using Libros.Entitties;
+﻿using Libros.Application;
+using Libros.Entitties;
 using Libros.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Libros.Controllers
 {
@@ -11,8 +11,12 @@ namespace Libros.Controllers
     {
         private readonly ILogger<Autor> _logger;
         private readonly IStringService _stringService;
-        public AutoresController(ILogger<Autor> logger, IStringService stringService)
+        private readonly IApplication<Autor> _autor;
+        public AutoresController(IApplication<Autor> autor
+            , ILogger<Autor> logger
+            , IStringService stringService)
         {
+            _autor = autor;
             _logger = logger;
             _stringService = stringService;
         }
@@ -20,29 +24,64 @@ namespace Libros.Controllers
         [Route("All")]
         public async Task<IActionResult> All()
         {
-            return Ok();
+            return Ok(_autor.GetAll());
         }
 
         [HttpGet]
         [Route("ById")]
-        public async Task<IActionResult> ById(int? id)
+        public async Task<IActionResult> ById(int? Id)
         {
-            //List<Autor> autores = GetAutores();
-            Autor autor = new Autor();
-            if (autor == null) { return BadRequest(); }
-            else { return Ok(_stringService.GetCompleteName(autor.Nombre, autor.Apellido)); };
-        }
-
-        [HttpPost]
-        [Route("Crear")]
-        public async Task<IActionResult> Crear(Autor autor)
-        {
-            if (!ModelState.IsValid)
+            if (!Id.HasValue)
             {
                 return BadRequest();
             }
-            autor.Id = 4;
-            return Created($"/api/ById?Id={autor.Id}", autor);
-        }        
+            Autor autor = _autor.GetById(Id.Value);
+            if (autor is null)
+            {
+                return NotFound();
+            }
+            return Ok(autor);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Crear(Autor autor)
+        {
+            if (!ModelState.IsValid)
+            { return BadRequest(); }
+            _autor.Save(autor);
+            return Ok(autor.Id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Editar(int? Id, Autor autor)
+        {
+            if (!Id.HasValue)
+            { return BadRequest(); }
+            if (!ModelState.IsValid)
+            { return BadRequest(); }
+            Autor autorBack = _autor.GetById(Id.Value);
+            if (autorBack is null)
+            { return NotFound(); }
+            autorBack.Nombre = autor.Nombre;
+            autorBack.Apellido = autor.Apellido;
+            autorBack.Email = autor.Email;
+            autorBack.FechaNacimiento = autor.FechaNacimiento;
+            _autor.Save(autorBack);
+            return Ok(autorBack);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Borrar(int? Id)
+        {
+            if (!Id.HasValue)
+            { return BadRequest(); }
+            if (!ModelState.IsValid)
+            { return BadRequest(); }
+            Autor autorBack = _autor.GetById(Id.Value);
+            if (autorBack is null)
+            { return NotFound(); }
+            _autor.Delete(autorBack.Id);
+            return Ok();
+        }
     }
 }
