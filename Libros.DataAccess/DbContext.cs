@@ -40,8 +40,8 @@ namespace Libre.DataAccess
             }
             else
             {
-                var entityDb = GetById(entity.Id);
-                _ctx.Entry(entityDb).State = EntityState.Modified;
+                //var entityDb = GetById(entity.Id);
+                //_ctx.Entry(entityDb).State = EntityState.Modified;
                 _Items.Update(entity);
             }
             _ctx.SaveChanges();

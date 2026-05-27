@@ -1,26 +1,29 @@
 ﻿using AutoMapper;
 using Libros.Application;
 using Libros.Application.Dtos.Autor;
+using Libros.Application.Dtos.Genero;
+using Libros.Controllers;
 using Libros.Entitties;
 using Libros.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Libros.Controllers
+namespace Libros.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AutoresController : ControllerBase
+    public class GenerosController : ControllerBase
     {
         private readonly ILogger<AutoresController> _logger;
         private readonly IStringService _stringService;
-        private readonly IApplication<Autor> _autor;
+        private readonly IApplication<Genero> _genero;
         private readonly IMapper _mapper;
-        public AutoresController(IApplication<Autor> autor
+        public GenerosController(IApplication<Genero> genero
             , ILogger<AutoresController> logger
             , IStringService stringService
             , IMapper mapper)
         {
-            _autor = autor;
+            _genero = genero;
             _logger = logger;
             _stringService = stringService;
             _mapper = mapper;
@@ -29,7 +32,7 @@ namespace Libros.Controllers
         [Route("All")]
         public async Task<IActionResult> All()
         {
-            return Ok(_mapper.Map<IList<AutorResponseDto>>(_autor.GetAll()));
+            return Ok(_mapper.Map<IList<GeneroResponseDto>>(_genero.GetAll()));
         }
 
         [HttpGet]
@@ -40,36 +43,36 @@ namespace Libros.Controllers
             {
                 return BadRequest();
             }
-            Autor autor = _autor.GetById(Id.Value);
-            if (autor is null)
+            Genero genero = _genero.GetById(Id.Value);
+            if (genero is null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<AutorResponseDto>(autor));
+            return Ok(_mapper.Map<GeneroResponseDto>(genero));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Crear(AutorRequestDto autorRequestDto)
+        public async Task<IActionResult> Crear(GeneroRequestDto generoRequestDto)
         {
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            var autor = _mapper.Map<Autor>(autorRequestDto);
-            _autor.Save(autor);
-            return Ok(autor.Id);
+            var genero = _mapper.Map<Genero>(generoRequestDto);
+            _genero.Save(genero);
+            return Ok(genero.Id);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Editar(int? Id, AutorRequestDto autorRequestDto)
+        public async Task<IActionResult> Editar(int? Id, GeneroRequestDto generoRequestDto)
         {
             if (!Id.HasValue)
             { return BadRequest(); }
             if (!ModelState.IsValid)
             { return BadRequest(); }
-            Autor autorBack = _autor.GetById(Id.Value);
-            if (autorBack is null)
+            Genero generoBack = _genero.GetById(Id.Value);
+            if (generoBack is null)
             { return NotFound(); }
-            _mapper.Map(autorRequestDto, autorBack);
-            _autor.Save(autorBack);
+            _mapper.Map(generoRequestDto, generoBack);
+            _genero.Save(generoBack);
             return Ok();
         }
 
@@ -77,11 +80,11 @@ namespace Libros.Controllers
         public async Task<IActionResult> Borrar(int? Id)
         {
             if (!Id.HasValue)
-            { return BadRequest(); }            
-            Autor autorBack = _autor.GetById(Id.Value);
-            if (autorBack is null)
+            { return BadRequest(); }
+            Genero generoBack = _genero.GetById(Id.Value);
+            if (generoBack is null)
             { return NotFound(); }
-            _autor.Delete(autorBack.Id);
+            _genero.Delete(generoBack.Id);
             return Ok();
         }
     }
