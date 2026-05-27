@@ -14,7 +14,7 @@ namespace Libros.WebApi.Controllers
     [ApiController]
     public class GenerosController : ControllerBase
     {
-        private readonly ILogger<AutoresController> _logger;
+        private readonly ILogger<GenerosController> _logger;
         private readonly IStringService _stringService;
         private readonly IApplication<Genero> _genero;
         private readonly IMapper _mapper;
