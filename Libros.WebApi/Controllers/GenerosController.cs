@@ -19,7 +19,7 @@ namespace Libros.WebApi.Controllers
         private readonly IApplication<Genero> _genero;
         private readonly IMapper _mapper;
         public GenerosController(IApplication<Genero> genero
-            , ILogger<AutoresController> logger
+            , ILogger<GenerosController> logger
             , IStringService stringService
             , IMapper mapper)
         {
