@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Libros.Application;
-using Libros.Application.Dtos.Autor;
 using Libros.Application.Dtos.Genero;
-using Libros.Controllers;
 using Libros.Entitties;
 using Libros.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libros.WebApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class GenerosController : ControllerBase

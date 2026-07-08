@@ -3,10 +3,13 @@ using Libros.Application;
 using Libros.Application.Dtos.Autor;
 using Libros.Entitties;
 using Libros.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libros.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class AutoresController : ControllerBase
