@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Libros.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class AutoresController : ControllerBase

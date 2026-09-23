@@ -112,7 +112,8 @@ app.UseHttpsRedirection();
 
 app.UseCors(FrontendCorsPolicy);
 
-app.UseAuthorization();
+app.UseAuthentication();   // valida el JWT del header Authorization y arma el User
+app.UseAuthorization();    // aplica los [Authorize] de los controllers
 
 app.MapControllers();
 
