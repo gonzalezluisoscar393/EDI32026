@@ -9,7 +9,7 @@ namespace Libros.WebApi.Mapping
         public AutorMappingProfile()
         {
             CreateMap<Autor, AutorResponseDto>().
-                ForMember(dest => dest.FechaNacimiento, ori => ori.MapFrom(src => src.FechaNacimiento.ToShortDateString()));
+                ForMember(dest => dest.FechaNacimiento, ori => ori.MapFrom(src => src.FechaNacimiento.ToString("yyyy-MM-dd")));
             CreateMap<AutorRequestDto, Autor>();
         }
     }
